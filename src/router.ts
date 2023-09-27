@@ -1,3 +1,4 @@
+// Importa os módulos necessários
 import path from 'node:path';
 import { Router } from 'express';
 import multer from 'multer';
@@ -10,9 +11,10 @@ import { listOrders } from './app/useCases/orders/listOrders';
 import { createOrder } from './app/useCases/orders/createOrder';
 import { changeOrderStatus } from './app/useCases/orders/changeOrderStatus';
 import { cancelOrder } from './app/useCases/orders/cancelOrder';
-export const router = Router();
+export const router = Router(); // Cria uma instância do Router do Express para gerenciar as rotas locais dos arquivos depois de inicializar o servidor
 
 //configuração do multer
+// Configuração do Multer para manipulação de uploads de arquivos.
 const upload = multer({
 	storage: multer.diskStorage({
 		destination(req, file, callback){
@@ -20,11 +22,12 @@ const upload = multer({
 		},
 		filename(req, file, callback){
 			callback(null, `${Date.now()}-${file.originalname}`);
+			//nome do arquivo igual a data atual + o nome do arquivo
 		},
 	})
 
 });
-
+// Rotas da aplicação:
 //List categories
 router.get('/categories', listCategories);
 
@@ -34,7 +37,7 @@ router.post('/categories', createCategory);
 //List products
 router.get('/products', listProducts);
 
-//Create products
+//Create products com upload de imagem
 router.post('/products', upload.single('image'), createProduct);
 
 //Get products by category
